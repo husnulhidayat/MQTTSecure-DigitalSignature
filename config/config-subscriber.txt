@@ -1,0 +1,12 @@
+[credential]
+username = mwmauqfp
+password = gHrpJvNsX447
+topic = Test/#
+
+[host]
+server = m12.cloudmqtt.com
+port = 13219
+keep-alive = 60
+
+[key]
+key = 4u7x!A%D*G-KaPdRgUkXp2s5v8y/B?E(

@@ -1,12 +1,22 @@
 import time
 import paho.mqtt.client as mqtt
 import pyaes
-import base64
+import configparser
 import hashlib
+
+config = configparser.RawConfigParser()
+config.read('config/config-publisher.txt')
+username = config.get('credential','username')
+password = config.get('credential','password')
+topic = config.get('credential','topic')
+server = config.get('host','server')
+port = config.getint('host','port')
+keepalive = config.getint('host','keep-alive')
+secretkey = config.get('key','key')
 
 def on_connect( client, userdata, flags, rc):
     print ("Connected with Code : " +str(rc))
-    client.subscribe("Test/#")
+    #client.subscribe(topic)
 
 def on_message( client, userdata, msg):
     print(str(msg.payload))
@@ -18,13 +28,13 @@ client.on_message = on_message
 # client.username_pw_set("husnul", "husnul")
 # client.connect("localhost", 1883, 60)
 
-client.username_pw_set("mwmauqfp", "gHrpJvNsX447")
-client.connect("m12.cloudmqtt.com", 13219, 60)
+client.username_pw_set(username, password)
+client.connect(server, port, keepalive)
 
 client.loop_start()
 time.sleep(1)
 
-key = "4u7x!A%D*G-KaPdRgUkXp2s5v8y/B?E("
+key = secretkey
 key = key.encode('utf-8')
 aes = pyaes.AESModeOfOperationCTR(key)
 
@@ -59,8 +69,9 @@ while True:
 
     client.publish("Test",digitalsignature)
 
-    time.sleep(3)
+    time.sleep(1)
     print("")
+
 
 client.loop_stop()
 client.disconnect()
