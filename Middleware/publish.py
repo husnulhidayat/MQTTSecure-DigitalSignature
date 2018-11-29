@@ -71,8 +71,14 @@ while True:
     client.on_log = on_log
 
     end = time.time()
+    #processing time
+    #u can give # if u dont want to see this processing
     ptob = end-start
-    print("execute time : ",ptob)
+    print("execute time (digital signature system) : ",ptob)
+
+    f = open('ptob.txt','w')
+    f.write(str(ptob))
+    f.close()
 
     cpu_process = psutil.Process()
     print("cpu usage percent : ",cpu_process.cpu_percent())
@@ -80,6 +86,7 @@ while True:
 
     time.sleep(1)
     print("")
+    #end
 
 def on_log(client, userdata, level, buf):
     print("log: ",buf)

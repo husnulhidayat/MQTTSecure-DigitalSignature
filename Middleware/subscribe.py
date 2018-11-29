@@ -60,12 +60,14 @@ def on_message( client, userdata, msg):
 
     end = time.time()
 
+    #processing time
     btos = end-start
-    print("execute time : ",btos)
-
+    f = open('ptob.txt').readline()
+    print("execute time publisher-broker-subscriber (running in local only) : ",btos+float(f))
     cpu_process = psutil.Process()
     print("cpu usage percent : ",cpu_process.cpu_percent())
     print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB")
+    #end
 
 client = mqtt.Client()
 client.on_connect = on_connect
