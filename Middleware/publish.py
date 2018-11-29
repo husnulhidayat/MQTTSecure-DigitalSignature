@@ -24,6 +24,10 @@ def on_connect( client, userdata, flags, rc):
 def on_message( client, userdata, msg):
     print(str(msg.payload))
 
+def on_log(client, userdata, level, buf):
+    print("log: ",buf)
+
+
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
@@ -64,7 +68,7 @@ while True:
     #end
 
     client.publish("Test",digitalsignature)
-
+    client.on_log = on_log
 
     end = time.time()
     ptob = end-start
@@ -76,6 +80,10 @@ while True:
 
     time.sleep(1)
     print("")
+
+def on_log(client, userdata, level, buf):
+    print("log: ",buf)
+client.on_log=on_log
 
 client.loop_stop()
 client.disconnect()
