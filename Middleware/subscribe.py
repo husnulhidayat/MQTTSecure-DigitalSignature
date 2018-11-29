@@ -2,7 +2,8 @@ import paho.mqtt.client as mqtt
 import pyaes
 import hashlib
 import configparser
-
+import time
+import psutil
 
 config = configparser.RawConfigParser()
 config.read('config/config-subscriber.txt')
@@ -14,6 +15,14 @@ port = config.getint('host','port')
 keepalive = config.getint('host','keep-alive')
 secretkey = config.get('key','key')
 
+
+
+def install(package):
+    if hasattr(pip, 'main'):
+        pip.main(['install', package])
+    else:
+        pip._internal.main(['install', package])
+
 def on_connect( client, userdata, flags, rc):
     print ("Connected with Code :" +str(rc))
     client.subscribe(topic)
@@ -23,8 +32,13 @@ key = key.encode('utf-8')
 aes = pyaes.AESModeOfOperationCTR(key)
 
 def on_message( client, userdata, msg):
+
+    start = time.time()
+
     msg = msg.payload
     #print(msg)
+
+
     decrypted = aes.decrypt(msg).decode('utf-8')
     #print(pesan1+decrypted)
 
@@ -41,17 +55,29 @@ def on_message( client, userdata, msg):
     #print("digest : ",digest)
 
     if hashValue==digest:
-        print("Pesan : ", pesanAsli)
+        print("Message : ", pesanAsli)
         client.subscribe(topic)
+
+    end = time.time()
+
+    btos = end-start
+    print("execute time : ",btos)
+
+    cpu_process = psutil.Process()
+    print("cpu usage percent : ",cpu_process.cpu_percent())
+    print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB")
 
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-
 client.username_pw_set(username, password)
 client.connect(server, port, keepalive)
-# client.username_pw_set("husnul", "husnul")
-# client.connect("localhost", 1883, 60)
 
 client.loop_forever()
+
+if __name__ == '__main__':
+    install('paho')
+    install('pyaes')
+    install('hashlib')
+    install('configparser')

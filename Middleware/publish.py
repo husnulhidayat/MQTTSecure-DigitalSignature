@@ -3,6 +3,8 @@ import paho.mqtt.client as mqtt
 import pyaes
 import configparser
 import hashlib
+import time
+import psutil
 
 config = configparser.RawConfigParser()
 config.read('config/config-publisher.txt')
@@ -13,6 +15,7 @@ server = config.get('host','server')
 port = config.getint('host','port')
 keepalive = config.getint('host','keep-alive')
 secretkey = config.get('key','key')
+
 
 def on_connect( client, userdata, flags, rc):
     print ("Connected with Code : " +str(rc))
@@ -25,9 +28,6 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-# client.username_pw_set("husnul", "husnul")
-# client.connect("localhost", 1883, 60)
-
 client.username_pw_set(username, password)
 client.connect(server, port, keepalive)
 
@@ -38,18 +38,12 @@ key = secretkey
 key = key.encode('utf-8')
 aes = pyaes.AESModeOfOperationCTR(key)
 
-
+global ptob
 while True:
-    print("Mulai Publish Message ")
+    print("Start publishing your message")
     pesan = input("message : ")
 
-    #aesencrypt
-    #enc = aes.encrypt(pesan)
-    #end
-    #encHEX = enc.hex()
-    #print("enc hex : ", encHEX)
-
-    #print(pesan)
+    start = time.time()
 
     m = hashlib.sha512()
     m.update(pesan.encode('utf-8'))
@@ -61,17 +55,28 @@ while True:
     #print("join    :",join)
     #join = enc+digest
 
-    #inisebabnya
     #createdigitalsignature
     digitalsignature = aes.encrypt(join)
-    print("digital signature ",digitalsignature.hex())
+
+    #show send time to broker
+    #showing ds value
+    #print("digital signature ",digitalsignature.hex())
     #end
 
     client.publish("Test",digitalsignature)
 
+
+    end = time.time()
+    ptob = end-start
+    print("execute time : ",ptob)
+
+    cpu_process = psutil.Process()
+    print("cpu usage percent : ",cpu_process.cpu_percent())
+    print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB")
+
     time.sleep(1)
     print("")
 
-
 client.loop_stop()
 client.disconnect()
+
