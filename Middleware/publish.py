@@ -92,6 +92,10 @@ def on_log(client, userdata, level, buf):
     print("log: ",buf)
 client.on_log=on_log
 
+def on_log(client, userdata, level, buf):
+    print("log: ",buf)
+client.on_log=on_log
+
 client.loop_stop()
 client.disconnect()
 
