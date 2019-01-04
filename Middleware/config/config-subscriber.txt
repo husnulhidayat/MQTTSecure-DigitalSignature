@@ -1,7 +1,7 @@
 [credential]
 username = husnul
 password = husnul
-topic = Test/#
+topic = Test
 
 [host]
 server = 35.237.236.241

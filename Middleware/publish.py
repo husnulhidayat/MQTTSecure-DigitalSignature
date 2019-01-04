@@ -15,6 +15,7 @@ server = config.get('host','server')
 port = config.getint('host','port')
 keepalive = config.getint('host','keep-alive')
 secretkey = config.get('key','key')
+qosval = config.getint('credential','qos')
 
 
 def on_connect( client, userdata, flags, rc):
@@ -42,12 +43,12 @@ key = secretkey
 key = key.encode('utf-8')
 aes = pyaes.AESModeOfOperationCTR(key)
 
-global ptob
 while True:
     print("Start publishing your message")
     pesan = input("message : ")
+    client.on_log = on_log
 
-    start = time.time()
+    start = time.clock()
 
     m = hashlib.sha512()
     m.update(pesan.encode('utf-8'))
@@ -64,13 +65,14 @@ while True:
 
     #show send time to broker
     #showing ds value
-    #print("digital signature ",digitalsignature.hex())
+    print("digital signature ",digitalsignature.hex())
     #end
 
-    client.publish("Test",digitalsignature)
+    client.publish(topic,digitalsignature,qos=qosval)
+    end = time.clock()
+
     client.on_log = on_log
 
-    end = time.time()
     #processing time
     #u can give # if u dont want to see this processing
     ptob = end-start
@@ -82,19 +84,14 @@ while True:
 
     cpu_process = psutil.Process()
     print("cpu usage percent : ",cpu_process.cpu_percent())
-    print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB")
+
+    print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB",cpu_process.memory_percent(), "%")
 
     time.sleep(1)
     print("")
     #end
 
-def on_log(client, userdata, level, buf):
-    print("log: ",buf)
-client.on_log=on_log
 
-def on_log(client, userdata, level, buf):
-    print("log: ",buf)
-client.on_log=on_log
 
 client.loop_stop()
 client.disconnect()
