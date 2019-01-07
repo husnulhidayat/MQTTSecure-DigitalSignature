@@ -22,7 +22,7 @@ pip3 install -r requirements.txt
 ```
 [credential] : your mqtt server info
 [host]       : your host info
-[key]       : your AES key (Use 32 byte key length)
+[key]        : your AES key (Use 32 byte key length)
 ```
 - Open your publisher
 ```
