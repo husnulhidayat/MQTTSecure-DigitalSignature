@@ -14,7 +14,7 @@ is a middleware to secure the payload sent from the publisher to the subscriber,
 ```
 git clone https://github.com/husnulhidayat/MQTTSecure-DigitalSignature/
 ```
-- Open middleware folder and install library requirements
+- Open middleware folder and install python library requirements
 ```
 pip3 install -r requirements.txt
 ```
