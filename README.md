@@ -5,28 +5,28 @@ is a middleware to secure the payload sent from the publisher to the subscriber,
 - Raspberry Pi
 - NodeMCU
 # External Library
-1. Paho-mqtt
-2. Pyaes
-3. Configparser
-4. Hashlib
+- Paho-mqtt
+- Pyaes
+- Configparser
+- Hashlib
 # How to use
-1. Clone this project
+- Clone this project
 ```
 git clone https://github.com/husnulhidayat/MQTTSecure-DigitalSignature/
 ```
-2. Open middleware folder and install library requirements
+- Open middleware folder and install library requirements
 ```
 pip3 install -r requirements.txt
 ```
-3. To open publisher
+- To open publisher
 ```
-python3 publsh.py
+python3 publish.py
 ```
-To open subscriber
+- To open subscriber
 ```
 python3 subscribe.py
 ```
-4. You can adjust the MQTT configuration in **config** folder
+- You can adjust the MQTT configuration in **config** folder
 
 
 
