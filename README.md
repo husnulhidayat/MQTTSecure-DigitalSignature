@@ -28,6 +28,8 @@ python3 subscribe.py
 ```
 - You can adjust the MQTT configuration in **config** folder
 
+**cheer 😀**
+
 
 
 
