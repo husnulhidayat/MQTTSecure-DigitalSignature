@@ -20,9 +20,9 @@ pip3 install -r requirements.txt
 ```
 - You can adjust the MQTT configuration in **config** folder 😀
 ```
-credential : your mqtt server info
-host       : your host info
-key        : your AES key (Use 32 byte key length)
+[credential] : your mqtt server info
+[host]       : your host info
+[key]       : your AES key (Use 32 byte key length)
 ```
 - To open publisher
 ```
