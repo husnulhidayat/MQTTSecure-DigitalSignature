@@ -22,7 +22,8 @@ def on_connect( client, userdata, flags, rc):
 
 key = secretkey
 key = key.encode('utf-8')
-aes = pyaes.AESModeOfOperationCTR(key)
+counter = pyaes.Counter(initial_value=0)
+aes = pyaes.AESModeOfOperationCTR(key, counter=counter)
 
 def on_message( client, userdata, msg):
 

@@ -1,10 +1,10 @@
-import time
 import paho.mqtt.client as mqtt
 import pyaes
 import configparser
 import hashlib
 import time
 import psutil
+import base64
 
 config = configparser.RawConfigParser()
 config.read('config/config-publisher.txt')
@@ -41,58 +41,62 @@ time.sleep(1)
 
 key = secretkey
 key = key.encode('utf-8')
-aes = pyaes.AESModeOfOperationCTR(key)
+counter = pyaes.Counter(initial_value=0)
+aes = pyaes.AESModeOfOperationCTR(key, counter=counter)
 
-while True:
-    print("Start publishing your message")
-    pesan = input("message : ")
-    client.on_log = on_log
+try:
+    while True:
+        print("Start publishing your message")
+        pesan = input("message : ")
+        client.on_log = on_log
 
-    start = time.clock()
+        start = time.clock()
 
-    m = hashlib.sha512()
-    m.update(pesan.encode('utf-8'))
-    digest = m.hexdigest()
-    #print("digest : ",digest)
+        m = hashlib.sha512()
+        m.update(pesan.encode('utf-8'))
+        digest = m.hexdigest()
+        #print("digest : ",digest)
 
-    #joinvalue#
-    join = digest+pesan
-    #print("join    :",join)
-    #join = enc+digest
+        #joinvalue#
+        join = digest+pesan
+        #print("join    :",join)
+        #join = enc+digest
 
-    #createdigitalsignature
-    digitalsignature = aes.encrypt(join)
+        #createdigitalsignature
+        digitalsignature = aes.encrypt(join)
 
-    #show send time to broker
-    #showing ds value
-    print("digital signature ",digitalsignature.hex())
-    #end
+        #show send time to broker
+        #showing ds value
+        print("digital signature ",digitalsignature.hex())
+        #end
 
-    client.publish(topic,digitalsignature,qos=qosval)
-    end = time.clock()
+        client.publish(topic,digitalsignature,qos=qosval)
+        end = time.clock()
 
-    client.on_log = on_log
+        client.on_log = on_log
 
-    #processing time
-    #u can give # if u dont want to see this processing
-    ptob = end-start
-    print("execute time (digital signature system) : ",ptob)
+        #processing time
+        #u can give # if u dont want to see this processing
+        ptob = end-start
+        print("execute time (digital signature system) : ",ptob)
 
-    f = open('ptob.txt','w')
-    f.write(str(ptob))
-    f.close()
+        f = open('ptob.txt','w')
+        f.write(str(ptob))
+        f.close()
 
-    cpu_process = psutil.Process()
-    print("cpu usage percent : ",cpu_process.cpu_percent())
+        cpu_process = psutil.Process()
+        print("cpu usage percent : ",cpu_process.cpu_percent())
 
-    print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB",cpu_process.memory_percent(), "%")
+        print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB",cpu_process.memory_percent(), "%")
 
-    time.sleep(1)
-    print("")
-    #end
+        time.sleep(1)
+        print("")
+        #end
 
 
+    client.loop_stop()
+    client.disconnect()
 
-client.loop_stop()
-client.disconnect()
-
+except KeyboardInterrupt:
+    print('Interrupted')
+    sys.exit(0)
