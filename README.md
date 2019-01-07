@@ -26,9 +26,7 @@ python3 publish.py
 ```
 python3 subscribe.py
 ```
-- You can adjust the MQTT configuration in **config** folder
-
-**cheer 😀**
+- You can adjust the MQTT configuration in **config** folder 😀
 
 
 
