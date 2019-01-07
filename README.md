@@ -8,7 +8,7 @@ Python 3.5.2
 3. Configparser
 4. Hashlib
 # How to use
-1. Clone
+1. Clone this project
 ```
 git clone https://github.com/husnulhidayat/MQTTSecure-DigitalSignature/
 ```
