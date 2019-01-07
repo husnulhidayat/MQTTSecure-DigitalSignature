@@ -18,6 +18,7 @@ git clone https://github.com/husnulhidayat/MQTTSecure-DigitalSignature/
 ```
 pip3 install -r requirements.txt
 ```
+- You can adjust the MQTT configuration in **config** folder 😀
 - To open publisher
 ```
 python3 publish.py
@@ -26,7 +27,7 @@ python3 publish.py
 ```
 python3 subscribe.py
 ```
-- You can adjust the MQTT configuration in **config** folder 😀
+
 
 
 
