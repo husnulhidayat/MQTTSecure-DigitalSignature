@@ -9,21 +9,21 @@ Python 3.5.2
 4. Hashlib
 # How to use
 1. Clone
-''
+'''
 git clone https://github.com/husnulhidayat/MQTTSecure-DigitalSignature/
-''
+'''
 2. Open middleware folder and install library requirements
-''
+'''
 pip3 install -r requirements.txt
-''
+'''
 3. To open publisher
-''
+'''
 python3 publsh.py
-''
+'''
 To open subscriber
-''
+'''
 python3 subscribe.py
-''
+'''
 4. You can adjust the MQTT configuration in **config** folder
 
 
