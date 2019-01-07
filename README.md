@@ -1,7 +1,9 @@
 # MQTTSecure-DigitalSignature
 is a middleware to secure the payload sent from the publisher to the subscriber, securing the middleware implements AES and SHA to create Digital Signature, the middleware is made with python 3.
-# Development Tool
+# Development Software and Hardware
 Python 3.5.2
+Raspberry Pi
+NodeMCU
 # External Library
 1. Paho-mqtt
 2. Pyaes
