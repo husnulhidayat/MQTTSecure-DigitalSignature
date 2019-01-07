@@ -24,11 +24,11 @@ pip3 install -r requirements.txt
 [host]       : your host info
 [key]       : your AES key (Use 32 byte key length)
 ```
-- To open publisher
+- Open your publisher
 ```
 python3 publish.py
 ```
-- To open subscriber
+- Open your subscriber
 ```
 python3 subscribe.py
 ```
