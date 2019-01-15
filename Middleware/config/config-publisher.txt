@@ -1,13 +1,19 @@
 [credential]
-username = husnul
-password = husnul
-topic = Test
-qos = 1
+username =
+password =
+topic =
+qos =
 
 [host]
+<<<<<<< HEAD
 server = localhost
 port = 1883
 keep-alive = 60
+=======
+server =
+port =
+keep-alive =
+>>>>>>> dbf7c74a1e11bd6144bd1fd0717ccb6775b0f669
 
 [key]
-key = 4u7x!A%D*G-KaPdRgUkXp2s5v8y/B?E(
+key =
