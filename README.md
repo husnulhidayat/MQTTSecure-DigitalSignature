@@ -32,6 +32,23 @@ python3 publish.py
 ```
 python3 subscribe.py
 ```
+**or**
+- Open middleware folder
+- Go to /executable binary folder
+- Open your command line
+  - in order to open subscriber, you just type
+  ```
+  $ ./subscriber
+  ```
+  - in order to open publisher
+  ```
+  $ ./publisher -m {message} -d {}
+  ```
+- u can use this thing also for help
+```
+~$ ./publisher -h
+```
+
 
 
 
