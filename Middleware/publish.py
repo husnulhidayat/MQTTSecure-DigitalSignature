@@ -1,3 +1,5 @@
+import sys
+import getopt
 import paho.mqtt.client as mqtt
 import pyaes
 import configparser
@@ -44,59 +46,64 @@ key = key.encode('utf-8')
 counter = pyaes.Counter(initial_value=0)
 aes = pyaes.AESModeOfOperationCTR(key, counter=counter)
 
-try:
-    while True:
-        print("Start publishing your message")
-        pesan = input("message : ")
-        client.on_log = on_log
 
-        start = time.clock()
+def main():
+    try:
+        while True:
+            print("Start publishing your message")
+            pesan = input("message : ")
+            client.on_log = on_log
 
-        m = hashlib.sha512()
-        m.update(pesan.encode('utf-8'))
-        digest = m.hexdigest()
-        #print("digest : ",digest)
+            start = time.clock()
 
-        #joinvalue#
-        join = digest+pesan
-        #print("join    :",join)
-        #join = enc+digest
+            m = hashlib.sha512()
+            m.update(pesan.encode('utf-8'))
+            digest = m.hexdigest()
+            #print("digest : ",digest)
 
-        #createdigitalsignature
-        digitalsignature = aes.encrypt(join)
+            #joinvalue#
+            join = digest+pesan
+            #print("join    :",join)
+            #join = enc+digest
 
-        #show send time to broker
-        #showing ds value
-        print("digital signature ",digitalsignature.hex())
-        #end
+            #createdigitalsignature
+            digitalsignature = aes.encrypt(join)
 
-        client.publish(topic,digitalsignature,qos=qosval)
-        end = time.clock()
+            #show send time to broker
+            #showing ds value
+            print("digital signature ",digitalsignature.hex())
+            #end
 
-        client.on_log = on_log
+            client.publish(topic,digitalsignature,qos=qosval)
+            end = time.clock()
 
-        #processing time
-        #u can give # if u dont want to see this processing
-        ptob = end-start
-        print("execute time (digital signature system) : ",ptob)
+            client.on_log = on_log
 
-        f = open('ptob.txt','w')
-        f.write(str(ptob))
-        f.close()
+            #processing time
+            #u can give # if u dont want to see this processing
+            ptob = end-start
+            print("execute time (digital signature system) : ",ptob)
 
-        cpu_process = psutil.Process()
-        print("cpu usage percent : ",cpu_process.cpu_percent())
+            f = open('ptob.txt','w')
+            f.write(str(ptob))
+            f.close()
 
-        print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB",cpu_process.memory_percent(), "%")
+            cpu_process = psutil.Process()
+            print("cpu usage percent : ",cpu_process.cpu_percent())
 
-        time.sleep(1)
-        print("")
-        #end
+            print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB",cpu_process.memory_percent(), "%")
+
+            time.sleep(1)
+            print("")
+            #end
 
 
-    client.loop_stop()
-    client.disconnect()
+        client.loop_stop()
+        client.disconnect()
 
-except KeyboardInterrupt:
-    print('Interrupted')
-    sys.exit(0)
+    except KeyboardInterrupt:
+        print('Interrupted')
+        sys.exit(0)
+
+if __name__ == '__main__':
+    main()
