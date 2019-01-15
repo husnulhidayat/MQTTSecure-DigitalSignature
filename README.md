@@ -24,25 +24,34 @@ pip3 install -r requirements.txt
 [host]       : your host info
 [key]        : your AES key (Use 32 byte key length)
 ```
+
+There is two way to open this middleware :
+1. Client side look like
+2. System look like
+what is this? just run, i just randomly giving that weird name lol.
+
+**Client Side**
 - Open your publisher
 ```
-python3 publish.py
+~$ python3 publish.py
 ```
 - Open your subscriber
 ```
-python3 subscribe.py
+~$ python3 subscribe.py
 ```
 **or**
+
+**System look like** //i don't know
 - Open middleware folder
 - Go to /executable binary folder
 - Open your command line
   - in order to open subscriber, you just type
   ```
-  $ ./subscriber
+  ~$ ./subscriber
   ```
   - in order to open publisher
   ```
-  $ ./publisher -m {message} -d {}
+  ~$ ./publisher -m {message} -d {}
   ```
 - u can use this thing also for help
 ```
