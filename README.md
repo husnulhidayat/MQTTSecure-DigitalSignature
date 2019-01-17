@@ -51,7 +51,7 @@ what is this? just run, i just randomly giving that weird name lol.
   ```
   - in order to open publisher
   ```
-  ~$ ./publisher -m {message} -d {}
+  ~$ ./publisher -m {message}
   ```
 - u can use this thing also for help
 ```
