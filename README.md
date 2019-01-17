@@ -25,23 +25,7 @@ pip3 install -r requirements.txt
 [key]        : your AES key (Use 32 byte key length)
 ```
 
-There is two way to open this middleware :
-1. Client side look like
-2. System look like
-what is this? just run, i just randomly giving that weird name lol.
-
-**Client Side**
-- Open your publisher
-```
-~$ python3 publish.py
-```
-- Open your subscriber
-```
-~$ python3 subscribe.py
-```
-**or**
-
-**System look like** //i don't know
+**how to use**
 - Open middleware folder
 - Go to /executable binary folder
 - Open your command line
