@@ -5,7 +5,7 @@ topic = Test
 qos = 1
 
 [host]
-server = 35.237.236.241
+server = localhost
 port = 1883
 keep-alive = 60
 

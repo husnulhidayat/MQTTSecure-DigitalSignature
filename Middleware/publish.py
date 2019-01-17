@@ -7,6 +7,7 @@ import hashlib
 import time
 import psutil
 import base64
+import argparse
 
 config = configparser.RawConfigParser()
 config.read('config/config-publisher.txt')
@@ -18,7 +19,12 @@ port = config.getint('host','port')
 keepalive = config.getint('host','keep-alive')
 secretkey = config.get('key','key')
 qosval = config.getint('credential','qos')
+clientid = config.get('credential','client')
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-m",help="message")
+args = parser.parse_args()
 
 def on_connect( client, userdata, flags, rc):
     print ("Connected with Code : " +str(rc))
@@ -31,7 +37,7 @@ def on_log(client, userdata, level, buf):
     print("log: ",buf)
 
 
-client = mqtt.Client()
+client = mqtt.Client(clientid)
 client.on_connect = on_connect
 client.on_message = on_message
 
@@ -46,64 +52,36 @@ key = key.encode('utf-8')
 counter = pyaes.Counter(initial_value=0)
 aes = pyaes.AESModeOfOperationCTR(key, counter=counter)
 
-
 def main():
+    client.loop_start()
     try:
-        while True:
-            print("Start publishing your message")
-            pesan = input("message : ")
-            client.on_log = on_log
+        #get message from arg
+        message = args.m
 
-            start = time.clock()
+        #create hashlib & hash message
+        hlib = hashlib.sha512()
+        hlib.update(message.encode('utf-8'))
+        hash = hlib.hexdigest()
 
-            m = hashlib.sha512()
-            m.update(pesan.encode('utf-8'))
-            digest = m.hexdigest()
-            #print("digest : ",digest)
+        #join message+hash
+        join = hash+message
 
-            #joinvalue#
-            join = digest+pesan
-            #print("join    :",join)
-            #join = enc+digest
+        #encrypting
+        cipher = aes.encrypt(join)
 
-            #createdigitalsignature
-            digitalsignature = aes.encrypt(join)
-
-            #show send time to broker
-            #showing ds value
-            print("digital signature ",digitalsignature.hex())
-            #end
-
-            client.publish(topic,digitalsignature,qos=qosval)
-            end = time.clock()
-
-            client.on_log = on_log
-
-            #processing time
-            #u can give # if u dont want to see this processing
-            ptob = end-start
-            print("execute time (digital signature system) : ",ptob)
-
-            f = open('ptob.txt','w')
-            f.write(str(ptob))
-            f.close()
-
-            cpu_process = psutil.Process()
-            print("cpu usage percent : ",cpu_process.cpu_percent())
-
-            print("memory usage : ",cpu_process.memory_info()[0] / float(2 ** 20)," MiB",cpu_process.memory_percent(), "%")
-
-            time.sleep(1)
-            print("")
-            #end
+        #publishing cipher to broker
+        client.publish(topic,cipher,qos=qosval)
+        print('published succesfully')
+        time.sleep(1)
 
 
-        client.loop_stop()
-        client.disconnect()
 
     except KeyboardInterrupt:
-        print('Interrupted')
+        print('intrupted')
         sys.exit(0)
+
+    client.loop_stop()
+    client.disconnect()
 
 if __name__ == '__main__':
     main()

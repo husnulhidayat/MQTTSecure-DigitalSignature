@@ -48,26 +48,21 @@ aes = pyaes.AESModeOfOperationCTR(key, counter=counter)
 
 def main(argv):
     try:
-        opts, args, = getopt.getopt(argv,"h:m:d:",["message=","log="])
+        opts, args, = getopt.getopt(argv,"h:m:",["message="])
     except getopt.GetoptError:
-        print("python3 {p.py} -m {message} -d {}")
+        print("python3 {p.py} -m {message}")
         print("log:")
         print("enable = 1")
         sys.exit(0)
     for opt, arg in opts:
         if opt == "h":
-            print("python3 {p.py} -m {message} -d {}")
+            print("python3 {p.py} -m {message}")
             print("log:")
             sys.exit(0)
         elif opt in ("-m","--message"):
             message = arg
-        elif opt in ("-d","--log"):
-            log = arg
-            if (log=="1"):
-                client.on_log = on_log
-            else:
-                print("invalid syntax: ")
-                sys.exit(0)
+        else:
+            print("invalid syntax")
 
     #print(message.encode('utf-8'))
     hash = hashlib.sha512()
