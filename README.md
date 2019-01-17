@@ -26,8 +26,7 @@ pip3 install -r requirements.txt
 ```
 
 **how to use**
-- Open middleware folder
-- Go to /executable binary folder
+- Go to /middleware/binary folder
 - Open your command line
   - in order to open subscriber, you just type
   ```
