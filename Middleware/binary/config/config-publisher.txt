@@ -1,0 +1,14 @@
+[credential]
+username = husnul
+password = husnul
+topic = Test
+qos = 0
+client = PYTHON
+
+[host]
+server = 35.237.236.241
+port = 1883
+keep-alive = 60
+
+[key]
+key = D(G+KbPeShVmYq3t6w9z$B&E)H@McQfT
