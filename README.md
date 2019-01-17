@@ -35,7 +35,7 @@ pip3 install -r requirements.txt
   ```
   - in order to open publisher
   ```
-  ~$ ./publisher -m {message}
+  ~$ ./publish -m {message}
   ```
 - u can use this thing also for help
 ```
