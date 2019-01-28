@@ -38,7 +38,7 @@ pip3 install -r requirements.txt
   ```
 - u can use this thing also for help
 ```
-~$ ./publisher -h
+~$ ./publish -h
 ```
 
 
