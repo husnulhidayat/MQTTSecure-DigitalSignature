@@ -41,6 +41,10 @@ pip3 install -r requirements.txt
 ~$ ./publish -h
 ```
 
+**IEEE Paper**
+Coming soon!:D
+
+
 
 
 
